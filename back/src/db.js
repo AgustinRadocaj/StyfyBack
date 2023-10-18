@@ -2,18 +2,18 @@ require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require('fs');
 const path = require('path');
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_URL, DATABASE_URL } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_URL } = process.env;
 
 const defineBooks = require ('./models/Book'); 
 
-// const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/books`, {
-//   logging: false, 
-//   native: false, 
-// });
-const sequelize = new Sequelize(DATABASE_URL, {
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/books`, {
   logging: false, 
   native: false, 
 });
+// const sequelize = new Sequelize(DB_URL, {
+//   logging: false, 
+//   native: false, 
+// });
 const basename = path.basename(__filename);
 
 const modelDefiners = [];
@@ -36,9 +36,12 @@ defineBooks(sequelize);
 const { Book } = sequelize.models; 
 const { User } = sequelize.models;
 const { Order } = sequelize.models;
+const { Review } = sequelize.models;
 
  Order.belongsToMany(User, {through: 'User_Order'});    // PENDIENTES DE AJUSTAR SI USAMOS MÁS DE UN MODELO 
  User.belongsToMany(Order, {through: 'User_Order'});    // PENDIENTES DE AJUSTAR SI USAMOS MÁS DE UN MODELO 
+ Review.belongsTo(User, { foreignKey: "userId" });
+ Review.belongsTo(Book, { foreignKey: "bookId" });
 
 // sequelize.sync({ force: false }) // Cambiar a true si deseo que se eliminen y vuelvan a crear las tablas
 //   .then(() => {
@@ -70,7 +73,8 @@ const createDefaultAdminUser = async () => {
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
-  createDefaultAdminUser
+  createDefaultAdminUser,
+  User
 };
 
 
