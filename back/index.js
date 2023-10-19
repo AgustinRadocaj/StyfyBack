@@ -4,7 +4,7 @@ const http = require('http');
 const { createBooks } = require("./src/controllers/getBooksController");
 const PORT = process.env.PORT || 3000;
 
-conn.sync({ alter: true }).then( async () => {
+conn.sync({ force: true }).then( async () => {
   await createBooks();
   await createDefaultAdminUser();
   const httpServer = http.createServer(server);

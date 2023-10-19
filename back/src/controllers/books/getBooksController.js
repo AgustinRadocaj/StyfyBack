@@ -21,6 +21,7 @@ const createBooks = async () => {
   if (dbBooks.length < 1) {
     for (const response of responses) {
       response.data.forEach(async (book) => {
+        console.log("stock:", book.stock)
         await Book.create({
           id: book.id,
           title: book.title,
@@ -28,15 +29,15 @@ const createBooks = async () => {
           publisher: book.publisher,
           image: book.image ? book.image : DEFAULT_IMAGE,
           publishedDate: book.publishedDate,
-          pageCount: book.pageCount,
+          pageCount: book.stock,
           genre: book.gender,
+          cantidad: Math.round(Math.random() * (5 - 2) + 2),
           price: Math.ceil(book.price),
           // arsPrice: Math.ceil(book.price * 843),
           // copPrice: Math.ceil(book.price * 4200),
           // mxnPrice: Math.ceil(book.price * 18),
           description: book.description,
           rating: Math.round(Math.random() * (5 - 2) + 2),
-          stock: book.stock,
         });
       });
     };
