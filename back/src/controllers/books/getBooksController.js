@@ -36,7 +36,7 @@ const createBooks = async () => {
           // mxnPrice: Math.ceil(book.price * 18),
           description: book.description,
           rating: Math.round(Math.random() * (5 - 2) + 2),
-          stock: Math.round(Math.random () * (100 - 0) + 0),
+          stock: book.stock,
         });
       });
     };
