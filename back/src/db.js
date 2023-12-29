@@ -2,17 +2,13 @@ require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require('fs');
 const path = require('path');
-const { DB_USER, DB_PASSWORD, DB_HOST, DATABASE_URL } = process.env;
+const { DB_URL } = process.env;
 
 const defineBooks = require ('./models/Book'); 
 
-// const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/books`, {
-//  logging: false, 
-//  native: false, 
-// });
- const sequelize = new Sequelize(DATABASE_URL, {
-   logging: false, 
-   native: false, 
+const sequelize = new Sequelize(`${DB_URL}`, {
+ logging: false, 
+ native: false, 
 });
 const basename = path.basename(__filename);
 
@@ -43,13 +39,6 @@ const { Review } = sequelize.models;
  Review.belongsTo(User, { foreignKey: "userId" });
  Review.belongsTo(Book, { foreignKey: "bookId" });
 
-// sequelize.sync({ force: false }) // Cambiar a true si deseo que se eliminen y vuelvan a crear las tablas
-//   .then(() => {
-//     console.log('Database synchronized');
-//   })
-//   .catch((err) => {
-//     console.error('Error syncing database:', err);
-//   });
 
 const createDefaultAdminUser = async () => {
   const [user, created] = await User.findOrCreate({
