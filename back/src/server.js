@@ -10,13 +10,12 @@ server.use(express.urlencoded({ extended: false }));
 server.use(morgan("dev"));
 server.use(express.json());
 server.use(cors());
-server.use(
-    cors({
-        origin: "https://styfyback-production.up.railway.app",
-        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-        credentials: true,
-    })
-);
+server.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://stayfy-xi.vercel.app');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
 const storage = multer.memoryStorage();
 // Aumenta el tamaño máximo de carga de archivos a 100 MB (en bytes)
 const maxUploadSize = 100 * 1024 * 1024; // 100 MB
