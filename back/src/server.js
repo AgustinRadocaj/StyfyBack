@@ -10,6 +10,7 @@ server.use(morgan("dev"));
 server.use(express.json());
 server.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
+    res.header('Acces-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();

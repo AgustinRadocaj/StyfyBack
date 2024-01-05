@@ -2,11 +2,11 @@ require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require('fs');
 const path = require('path');
-const {DB_URL}  = process.env;
+const {DATABASE_URL}  = process.env;
 
 const defineBooks = require ('./models/Book'); 
 
-const sequelize = new Sequelize(`${DB_URL}`, {
+const sequelize = new Sequelize(`${DATABASE_URL}`, {
  logging: false, 
  native: false, 
 });
